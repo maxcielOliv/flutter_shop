@@ -13,12 +13,12 @@ class OrdersPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: Text(
+        title: const Text(
           'Meus Pedidos',
         ),
         centerTitle: true,
       ),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       body: ListView.builder(
         itemCount: orders.items.length,
         itemBuilder: (context, index) =>

@@ -26,6 +26,7 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Theme.of(context).primaryColor,
+        iconTheme: Theme.of(context).iconTheme,
         actions: [
           PopupMenuButton(
             iconColor: Colors.white,

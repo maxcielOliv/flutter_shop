@@ -29,17 +29,19 @@ class App extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            primaryColor: Colors.pink,
-            colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.deepOrange,
-              primary: Colors.deepOrange,
-            ),
-            fontFamily: 'Lato',
-            useMaterial3: true,
-            textTheme: const TextTheme(
-              titleMedium: TextStyle(color: Colors.white),
-            ),
-            appBarTheme: AppBarTheme(color: Colors.white)),
+          primaryColor: Colors.pink,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.deepOrange,
+            primary: Colors.deepOrange,
+          ),
+          fontFamily: 'Lato',
+          useMaterial3: true,
+          textTheme: const TextTheme(
+            titleMedium: TextStyle(color: Colors.white),
+          ),
+          appBarTheme: AppBarTheme(color: Colors.white),
+          iconTheme: IconThemeData(color: Colors.white),
+        ),
         routes: {
           AppRoutes.home: (context) => const ProductOverviewPage(),
           AppRoutes.productDetail: (context) => const ProductDetailPage(),
