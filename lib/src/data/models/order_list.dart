@@ -5,7 +5,7 @@ import 'package:flutter_shop/src/data/models/cart.dart';
 import 'package:flutter_shop/src/data/models/order.dart';
 
 class OrderList with ChangeNotifier {
-  List<Order> _items = [];
+  final List<Order> _items = [];
 
   List<Order> get items {
     return [..._items];

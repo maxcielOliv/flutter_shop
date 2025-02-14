@@ -41,8 +41,8 @@ class App extends StatelessWidget {
           textTheme: const TextTheme(
             titleMedium: TextStyle(color: Colors.white),
           ),
-          appBarTheme: AppBarTheme(color: Colors.white),
-          iconTheme: IconThemeData(color: Colors.white),
+          appBarTheme: const AppBarTheme(color: Colors.white),
+          iconTheme: const IconThemeData(color: Colors.white),
         ),
         routes: {
           AppRoutes.home: (context) => const ProductOverviewPage(),

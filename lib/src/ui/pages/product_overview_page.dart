@@ -71,7 +71,7 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
       body: ProductGrid(
         showFavoriteOnly: showFavoriteOnly,
       ),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
     );
   }
 }
