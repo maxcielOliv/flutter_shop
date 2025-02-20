@@ -39,6 +39,12 @@ class _ProductFormPageState extends State<ProductFormPage> {
   }
 
   void submitForm() {
+    final isValid = formKey.currentState?.validate() ?? false;
+
+    if (!isValid) {
+      return;
+    }
+
     formKey.currentState?.save();
     final newProduct = Product(
         id: Random().nextDouble().toString(),
@@ -68,26 +74,52 @@ class _ProductFormPageState extends State<ProductFormPage> {
           child: ListView(
             children: [
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Nome'),
+                decoration: const InputDecoration(
+                  labelText: 'Nome',
+                ),
                 textInputAction: TextInputAction.next,
                 onSaved: (name) => formData['name'] = name ?? '',
+                validator: (name) {
+                  if (name!.trim().isEmpty) {
+                    return 'Nome é obrigatório';
+                  }
+
+                  return null;
+                },
               ),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Preço'),
+                decoration: const InputDecoration(
+                  labelText: 'Preço',
+                ),
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.number,
                 focusNode: priceFocus,
                 onSaved: (price) =>
                     formData['price'] = double.parse(price as String),
+                validator: (price) {
+                  if (price!.trim().isEmpty) {
+                    return 'Preço é obrigatório';
+                  }
+
+                  return null;
+                },
               ),
               TextFormField(
-                  decoration: const InputDecoration(labelText: 'Descrição'),
-                  textInputAction: TextInputAction.next,
-                  keyboardType: TextInputType.multiline,
-                  focusNode: descriptionFocus,
-                  maxLines: 3,
-                  onSaved: (description) =>
-                      formData['description'] = description ?? ''),
+                decoration: const InputDecoration(labelText: 'Descrição'),
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.multiline,
+                focusNode: descriptionFocus,
+                validator: (description) {
+                  if (description!.trim().isEmpty) {
+                    return 'Preço é obrigatório';
+                  }
+
+                  return null;
+                },
+                maxLines: 3,
+                onSaved: (description) =>
+                    formData['description'] = description ?? '',
+              ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
