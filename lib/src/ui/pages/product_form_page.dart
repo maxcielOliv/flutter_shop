@@ -38,6 +38,14 @@ class _ProductFormPageState extends State<ProductFormPage> {
     setState(() {});
   }
 
+  bool isValidImageUrl(String url) {
+    bool isValidUrl = Uri.tryParse(url)?.hasAbsolutePath ?? false;
+    bool endsWithFile = url.toLowerCase().endsWith('.png') ||
+        url.toLowerCase().endsWith('.png') ||
+        url.toLowerCase().endsWith('.png');
+    return isValidUrl && endsWithFile;
+  }
+
   void submitForm() {
     final isValid = formKey.currentState?.validate() ?? false;
 
@@ -97,8 +105,11 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 onSaved: (price) =>
                     formData['price'] = double.parse(price as String),
                 validator: (price) {
-                  if (price!.trim().isEmpty) {
-                    return 'Preço é obrigatório';
+                  final priceString = price ?? '';
+                  final priceConvert = double.parse(priceString);
+
+                  if (priceConvert <= 0) {
+                    return 'Informe um preço válido';
                   }
 
                   return null;
@@ -111,7 +122,11 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 focusNode: descriptionFocus,
                 validator: (description) {
                   if (description!.trim().isEmpty) {
-                    return 'Preço é obrigatório';
+                    return 'Descrição é obrigatório';
+                  }
+
+                  if (description.trim().length < 10) {
+                    return 'Descrição precisa de no mínimo 10 caracteres';
                   }
 
                   return null;
@@ -134,6 +149,14 @@ class _ProductFormPageState extends State<ProductFormPage> {
                       onSaved: (imageUrl) =>
                           formData['imageUrl'] = imageUrl ?? '',
                       onFieldSubmitted: (context) => submitForm(),
+                      validator: (value) {
+                        final imageUrl = value ?? '';
+                        if (!isValidImageUrl(imageUrl)) {
+                          return 'Informe uma Url válida!';
+                        }
+
+                        return null;
+                      },
                     ),
                   ),
                   Container(
