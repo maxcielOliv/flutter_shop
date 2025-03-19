@@ -70,7 +70,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
     return isValidUrl && endsWithFile;
   }
 
-  void submitForm() {
+  Future<void> submitForm() async {
     final isValid = formKey.currentState?.validate() ?? false;
 
     if (!isValid) {
@@ -82,16 +82,31 @@ class _ProductFormPageState extends State<ProductFormPage> {
     setState(() {
       isLoading = true;
     });
-
-    Provider.of<ProductList>(
-      context,
-      listen: false,
-    ).saveProduct(formData).then(
-      (value) {
-        setState(() => isLoading = false);
-        Navigator.of(context).pop();
-      },
-    );
+    try {
+      await Provider.of<ProductList>(
+        context,
+        listen: false,
+      ).saveProduct(formData);
+    } catch (error) {
+      await showDialog<void>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Ocorreu um erro!'),
+          content: const Text(
+            'Ocorreu um erro ao salvar o produto.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    } finally {
+      setState(() => isLoading = false);
+      Navigator.of(context).pop();
+    }
   }
 
   @override
