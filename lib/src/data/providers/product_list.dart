@@ -1,13 +1,11 @@
 import 'dart:convert';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_shop/src/data/dummy_data.dart';
 import 'package:flutter_shop/src/data/models/product.dart';
 import 'package:http/http.dart';
 
 class ProductList with ChangeNotifier {
-  final List<Product> _items = dummyProducts;
+  final List<Product> _items = [];
   final _baseUrl = 'https://flutter-shop-5575a-default-rtdb.firebaseio.com/';
 
   List<Product> get items => [..._items];
@@ -37,15 +35,23 @@ class ProductList with ChangeNotifier {
 
   Future<void> getProduct() async {
     final response = await get(Uri.parse('$_baseUrl/product.json'));
-    final product = jsonDecode(response.body);
-    Product(
-      id: product.id,
-      name: product.name,
-      description: product.description,
-      price: product.price,
-      imageUrl: product.imageUrl,
-      isFavorite: product.isFavorite,
+    if (response.body == 'null') return;
+    Map<String, dynamic> data = jsonDecode(response.body);
+    data.forEach(
+      (key, value) {
+        _items.add(
+          Product(
+            id: key,
+            name: value['name'],
+            description: value['description'],
+            price: value['price'],
+            imageUrl: value['imageUrl'],
+            isFavorite: value['isFavorite'],
+          ),
+        );
+      },
     );
+
     notifyListeners();
   }
 
